@@ -7,7 +7,9 @@ $(function(){
 	lanzarCaramelos();
 
 	
-
+	$("div[class^='col']").sortable({
+	  revert: true
+	});
 	// dibuja los caramelos en las columnas 
 	function lanzarCaramelos () {
 		for (var i = 1; i<=7; i++ ){
@@ -82,6 +84,7 @@ $(function(){
 		
 			});
 		}
+	crash();	
 	}/*** Fin de encontar mach***/
 	
 	function temporizador (time){
@@ -95,31 +98,32 @@ $(function(){
 		if (tiempo <= 0){
 			gameOver();
 		}
-
-
 	}
 	
+
+	//Boton de INICIO - REINICIO 
 	$(".btn-reinicio").click(function(event) {
 		if ($(this).text() == "Iniciar" ){
 			$(this).text("Reiniciar");
 			timer = setInterval(temporizador, 1000);
+			encontrartMach();
 		}else{
 			clearInterval(timer);
 			borrarCaramelos();
 			tiempo = 120;
 			movimientos =0;
-			puntos =0;
-
-			
+			puntos =0;		
 			$(".panel-score").width("25%");
 			$('.panel-tablero').show('fast', function() {
 				lanzarCaramelos();
+				encontrartMach();
 						
 			});
 			$(".time").show("fast");
 			timer = setInterval(temporizador, 1000);
+			
 		}
-			encontrartMach();
+		
 	});
 
 
@@ -127,16 +131,83 @@ $(function(){
 	function gameOver(){
 		$('.panel-tablero').hide('slow', function (){
 			$(".panel-score").width("100%");
-			borrarCaramelos();
+			
 
 		});
 		$(".time").hide("slow");
+		borrarCaramelos();
 		clearInterval(timer);
 
 
 	}
-	
 
+	//animacion de titulo 
+	function color1(obj){
+		$(obj).animate({color: "#989989"}, 200, function(){
+			color2(obj);
+		});
+	}
+	function color2(obj){
+		$(obj).animate({color: "#DCFF0E"}, 200, function(){
+			color1(obj);
+		});
+
+
+	}
+	$('.main-titulo').click(function(event) {
+		color1($(this));
+	});
+	$(".main-titulo").click();
+	 // fin animacion del titulo 
+
+	 //Des de Detectar abuma para romper los caramelos 
+	 function crash(){
+		$(".mach").animate({
+			opacity: 0.5
+		}, 500, function (){
+			$(".mach").animate({
+				opacity: 1
+
+			}, 300, function (){
+				
+			});
+		});
+
+		setTimeout(romper, 1300);
+
+	}
+	//ELIMINA LOS CARAMELOS QUE ESTAN EN MATCH
+	function romper(){
+		puntos +=  $(".mach").length * 10; 
+		$("#score-text").text(puntos);
+		$(".mach").remove();
+		setTimeout(reOrdenar, 600);
+	}
+
+	//BUSCA LOS ESPACIOS VACIOS EN LAS COLUMAS 
+	function reOrdenar(){
+		for(var x = 1; x<=7; x++){
+			faltan=7- $(".elemento[columna='"+x+"']").length;	
+			if (faltan > 0){
+				for (var mas = 0; mas <faltan ; mas++){
+					reCrearCaramelo(x, mas);
+				}
+			}		
+		}
+		for (var x1 = 1; x1<=7;x1++){
+			$(".elemento[columna='"+ x1+"']").each(function(index, el) {
+				$(this).attr("posision", (index+1));
+			}); 
+		}
+
+		encontrartMach();
+	}
+
+	//CREA UN CARAMELO EN EL ESPACIO VASIO
+	function reCrearCaramelo(col, y){
+		nimg =Math.floor(Math.random() * 4) + 1 ;
+		$(".col-" + col).prepend("<img src='image/"+nimg+".png' class='elemento' imagen='"+nimg+"' columna='"+col+"'  posision ='"+y+"'> ").show("slow");
+	}
 	
 });
 
