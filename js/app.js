@@ -24,7 +24,7 @@ $(function(){
 
 	}
 
-
+	// FUNCIOPN QUE ENCIANTRA MACH  VERTICAL
 	function encontrartMach (){
 		for (var x = 1; x<=7; x++ ){
 			machColumna=0;
@@ -51,6 +51,7 @@ $(function(){
 		
 	}/*** Fin de Rcontar mach***/
 	
+	// FUNCIOPN QUE ENCIANTRA MACH HORIZAONTAL
 	function encontrartMachH(){
 		for (var y = 1; y<=7; y++ ){
 			machFila=0;
@@ -61,7 +62,6 @@ $(function(){
 		
 					if ( $(this).attr('imagen') == $('.elemento[posision="'+y+'"][columna="'+next+'"]').attr('imagen') ){
 						machFila++;
-						//console.log( y ,"si ", indexX, "img ",$(this).attr("imagen"), "img2" , $(this).next().attr('imagen') );
 						if(machFila >= 2){
 							for (var x = 0; x<= machFila; x++ ){
 								columna= indexX+x;
