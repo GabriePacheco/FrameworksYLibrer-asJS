@@ -1,5 +1,5 @@
 $(function(){
-	var tiempo = 10;
+	var tiempo = 90;
 	var minutos=0;
 	var segundos=0;
 	var movimientos=0;
@@ -7,9 +7,6 @@ $(function(){
 	lanzarCaramelos();
 
 	
-	$("div[class^='col']").sortable({
-	  revert: true
-	});
 	// dibuja los caramelos en las columnas 
 	function lanzarCaramelos () {
 		for (var i = 1; i<=7; i++ ){
@@ -18,6 +15,31 @@ $(function(){
 				crearCaramelo(i,tipoImagen,j,);
 			}
 		}
+		$('.elemento').draggable({
+			revert: true
+		});
+
+		$(".elemento").on("mouseup", function(event) {
+					 seleccionado = $(this);
+					 $(".elemento").each(function(index, el) {
+					 	test = seleccionado.hitTest($(this).offset().left , $(this).offset().top);
+					 	if (test == true ){
+					 		console.log($(this)) ;
+					 		auxHitSRC = $(this).attr("src");
+					 		auxHimg = $(this).attr("imagen");
+					 		
+							$(this).attr("imagen" ,seleccionado.attr("imagen"));
+					 		$(this).attr("src" ,seleccionado.attr("src"));	 	
+					 		seleccionado.attr("src", auxHitSRC);
+					 		seleccionado.attr("imagen", auxHimg);
+					 	}
+					 });
+				
+				})
+
+
+
+
 	}
 	//borra todos los caramelos 
 	function borrarCaramelos () {
@@ -164,7 +186,7 @@ $(function(){
 	 function crash(){
 		$(".mach").animate({
 			opacity: 0.5
-		}, 500, function (){
+		}, 200, function (){
 			$(".mach").animate({
 				opacity: 1
 
@@ -173,7 +195,7 @@ $(function(){
 			});
 		});
 
-		setTimeout(romper, 1300);
+		setTimeout(romper, 800);
 
 	}
 	//ELIMINA LOS CARAMELOS QUE ESTAN EN MATCH
@@ -199,6 +221,40 @@ $(function(){
 				$(this).attr("posision", (index+1));
 			}); 
 		}
+		$('.elemento').draggable({
+			revert: true,
+			drag : function (){
+				seleccionado = $(this);
+				 $(".elemento").each(function(index, el) {
+				 	test = seleccionado.hitTest($(this).offset().left , $(this).offset().top);
+				 	if (test == true ){
+				 		$(this).css("border", "double 2px gray");
+				 	}else{
+				 		$(this).css("border", "");
+				 	}
+				 });
+
+
+			}
+		
+		});
+			$(".elemento").on("mouseup", function(event) {
+					 seleccionado = $(this);
+					 $(".elemento").each(function(index, el) {
+					 	test = seleccionado.hitTest($(this).offset().left , $(this).offset().top);
+					 	if (test == true ){
+					 		console.log($(this)) ;
+					 		auxHitSRC = $(this).attr("src");
+					 		auxHimg = $(this).attr("imagen");
+					 	
+							$(this).attr("imagen" ,seleccionado.attr("imagen"));
+					 		$(this).attr("src" ,seleccionado.attr("src"));	 	
+					 		seleccionado.attr("src", auxHitSRC);
+					 		seleccionado.attr("imagen", auxHimg);
+					 	}
+					 });
+				
+				})
 
 		encontrartMach();
 	}
@@ -208,6 +264,11 @@ $(function(){
 		nimg =Math.floor(Math.random() * 4) + 1 ;
 		$(".col-" + col).prepend("<img src='image/"+nimg+".png' class='elemento' imagen='"+nimg+"' columna='"+col+"'  posision ='"+y+"'> ").show("slow");
 	}
+
+
+	 $.fn.hitTest = function (x, y) { 
+        return (Math.floor(x) >= Math.floor(this.offset().left) && Math.floor(x)  < this.offset().left + this.width()) && (Math.floor(y)  >= Math.floor(this.offset().top) && Math.floor(y)  < Math.floor(this.offset().top) + this.height()); 
+    }; 
 	
 });
 
