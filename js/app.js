@@ -4,7 +4,7 @@ $(function(){
 	var segundos=0;
 	var movimientos=0;
 	var puntos=0;
-	lanzarCaramelos();
+
 
 	
 	// dibuja los caramelos en las columnas 
@@ -18,28 +18,7 @@ $(function(){
 		$('.elemento').draggable({
 			revert: true
 		});
-
-		$(".elemento").on("mouseup", function(event) {
-					 seleccionado = $(this);
-					 $(".elemento").each(function(index, el) {
-					 	test = seleccionado.hitTest($(this).offset().left , $(this).offset().top);
-					 	if (test == true ){
-					 		console.log($(this)) ;
-					 		auxHitSRC = $(this).attr("src");
-					 		auxHimg = $(this).attr("imagen");
-					 		
-							$(this).attr("imagen" ,seleccionado.attr("imagen"));
-					 		$(this).attr("src" ,seleccionado.attr("src"));	 	
-					 		seleccionado.attr("src", auxHitSRC);
-					 		seleccionado.attr("imagen", auxHimg);
-					 	}
-					 });
-				
-				})
-
-
-
-
+	
 	}
 	//borra todos los caramelos 
 	function borrarCaramelos () {
@@ -143,6 +122,7 @@ $(function(){
 			});
 			$(".time").show("fast");
 			timer = setInterval(temporizador, 1000);
+
 			
 		}
 		
@@ -201,6 +181,11 @@ $(function(){
 	//ELIMINA LOS CARAMELOS QUE ESTAN EN MATCH
 	function romper(){
 		puntos +=  $(".mach").length * 10; 
+		if ( $(".mach").length >= 3){
+			tiempo += 3; 
+		}
+		$("#movimientos-text").text(movimientos);
+		$("#score-text").text(puntos);
 		$("#score-text").text(puntos);
 		$(".mach").remove();
 		setTimeout(reOrdenar, 600);
@@ -222,39 +207,37 @@ $(function(){
 			}); 
 		}
 		$('.elemento').draggable({
+			zIndex: 100,
 			revert: true,
+			 opacity: 0.80,
 			drag : function (){
 				seleccionado = $(this);
 				 $(".elemento").each(function(index, el) {
 				 	test = seleccionado.hitTest($(this).offset().left , $(this).offset().top);
 				 	if (test == true ){
-				 		$(this).css("border", "double 2px gray");
+				 		$(this).addClass('mover');
 				 	}else{
-				 		$(this).css("border", "");
+				 		$(this).removeClass('mover');
 				 	}
 				 });
-
-
+				 $(this).removeClass('mover');
+			},
+			stop: function (){
+				movimientos++;
 			}
 		
-		});
+		});	//FUNCION QUE AGREGA LA FUNCIONALIDAD DE CAMBIO DE CARAMELO	
 			$(".elemento").on("mouseup", function(event) {
-					 seleccionado = $(this);
-					 $(".elemento").each(function(index, el) {
-					 	test = seleccionado.hitTest($(this).offset().left , $(this).offset().top);
-					 	if (test == true ){
-					 		console.log($(this)) ;
-					 		auxHitSRC = $(this).attr("src");
-					 		auxHimg = $(this).attr("imagen");
-					 	
-							$(this).attr("imagen" ,seleccionado.attr("imagen"));
-					 		$(this).attr("src" ,seleccionado.attr("src"));	 	
-					 		seleccionado.attr("src", auxHitSRC);
-					 		seleccionado.attr("imagen", auxHimg);
-					 	}
-					 });
+					$(this).removeClass("mover");
+					 var auxMoverImagen = $(".mover").attr("imagen");
+					 var auxMoverSrc = $(".mover").attr("src");
+					 $(".mover").attr("imagen",$(this).attr("imagen"));
+					 $(".mover").attr("src", $(this).attr("src"));
+					 $(this).attr("src", auxMoverSrc );
+					 $(this).attr("imagen", auxMoverImagen);
+					 $(".elemento").removeClass('mover');
 				
-				})
+			});
 
 		encontrartMach();
 	}
