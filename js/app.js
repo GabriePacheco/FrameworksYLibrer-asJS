@@ -107,6 +107,7 @@ $(function(){
 		if ($(this).text() == "Iniciar" ){
 			$(this).text("Reiniciar");
 			timer = setInterval(temporizador, 1000);
+			lanzarCaramelos();
 			encontrartMach();
 		}else{
 			clearInterval(timer);
@@ -221,10 +222,13 @@ $(function(){
 				 $(".elemento").each(function(index, el) {
 				 	test = seleccionado.hitTest($(this).offset().left , $(this).offset().top);
 				 	if (test == true ){
-				 		console.log( Math.floor(seleccionado.attr("columna"))+1 ,  Math.floor($(this).attr("columna")) ) ;	
+				 	
 				 		if (seleccionado.attr("columna")==$(this).attr("columna") || Math.floor(seleccionado.attr("columna"))-1==Math.floor($(this).attr("columna"))  || Math.floor(seleccionado.attr("columna"))+1==Math.floor($(this).attr("columna"))  ){
-				 			if (seleccionado.attr("posision")==$(this).attr("posision") || Math.floor(seleccionado.attr("posision"))-1==Math.floor($(this).attr("posision"))  || Math.floor(seleccionado.attr("posision"))+1==Math.floor($(this).attr("posision"))  )
-				 			$(this).addClass('mover');
+				 			if (seleccionado.attr("posision")==$(this).attr("posision") || Math.floor(seleccionado.attr("posision"))-1==Math.floor($(this).attr("posision"))  || Math.floor(seleccionado.attr("posision"))+1==Math.floor($(this).attr("posision"))  ){			 				
+					 			if (!(seleccionado.attr("posision") < $(this).attr("posision") &&  seleccionado.attr("columna") < $(this).attr("columna")) && !(seleccionado.attr("posision") > $(this).attr("posision") &&  seleccionado.attr("columna") > $(this).attr("columna"))  && !(seleccionado.attr("posision") < $(this).attr("posision") &&  seleccionado.attr("columna") > $(this).attr("columna")) && !(seleccionado.attr("posision") > $(this).attr("posision") &&  seleccionado.attr("columna") < $(this).attr("columna")))
+					 			$(this).addClass('mover');
+				 			}
+				 			
 				 		}
 				 	}else{
 				 		$(this).removeClass('mover');
