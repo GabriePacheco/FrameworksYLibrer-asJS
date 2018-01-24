@@ -1,5 +1,5 @@
 $(function(){
-	var tiempo = 3;
+	var tiempo =1203;
 	var minutos=0;
 	var segundos=0;
 	var movimientos=0;
@@ -170,27 +170,18 @@ $(function(){
 
 	 //Des de Detectar abuma para romper los caramelos 
 	 function crash(){
-		$(".mach").animate({
-			opacity: 0.5
-		}, 200, function (){
-			$(".mach").animate({
-				opacity: 1
-
-			}, 400, function (){
-				$(".mach").animate({
-				opacity: 0.5
-
-			},200)
-			});
-		});
-
-		setTimeout(romper, 900);
+		$(".mach")
+		.animate({opacity: 0.5},200)
+		.animate({opacity: 1},200)
+		.animate({opacity: 0.5},200)
+		.animate({opacity: 1},200)
+		.animate({opacity: 0.5},200);
+		setTimeout(romper, 1000);
 
 	}
 	//ELIMINA LOS CARAMELOS QUE ESTAN EN MATCH
 	function romper(){
 		puntos +=  $(".mach").length * 10; 
-		
 		$("#movimientos-text").text(movimientos);
 		$("#score-text").text(puntos);
 		$("#score-text").text(puntos);
