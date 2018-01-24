@@ -1,5 +1,5 @@
 $(function(){
-	var tiempo = 120;
+	var tiempo = 3;
 	var minutos=0;
 	var segundos=0;
 	var movimientos=0;
@@ -135,12 +135,13 @@ $(function(){
 	/** Fin de juego ***/
 	function gameOver(){
 		borrarCaramelos();
-		$('.panel-tablero').hide(1300, function (){
-			$(".panel-score").width("100%");
-			$(".panel-score").prepend('<h3 class="main-titulo">Juego Terminado</h3>')
+		$('.panel-tablero').hide(1000, function (){
+			
+			$(".panel-score").prepend('<h3 class="main-titulo" style="text-align: center;">Juego Terminado</h3>')
 			
 		borrarCaramelos();
 		});
+		$(".panel-score").animate({width: "100%"}, 1000);
 		$(".time").hide("slow");
 		borrarCaramelos();
 		clearInterval(timer);
