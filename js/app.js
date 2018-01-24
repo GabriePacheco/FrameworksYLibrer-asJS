@@ -1,5 +1,5 @@
 $(function(){
-	var tiempo = 90;
+	var tiempo = 120;
 	var minutos=0;
 	var segundos=0;
 	var movimientos=0;
@@ -115,12 +115,14 @@ $(function(){
 			movimientos =0;
 			puntos =0;		
 			$(".panel-score").width("25%");
-			$('.panel-tablero').show('fast', function() {
+			$('.panel-tablero').show('slow', function() {
 				lanzarCaramelos();
 				encontrartMach();
 						
 			});
+			$(".panel-score h3").remove();
 			$(".time").show("fast");
+
 			timer = setInterval(temporizador, 1000);
 
 			
@@ -131,10 +133,12 @@ $(function(){
 
 	/** Fin de juego ***/
 	function gameOver(){
-		$('.panel-tablero').hide('slow', function (){
+		borrarCaramelos();
+		$('.panel-tablero').hide(1300, function (){
 			$(".panel-score").width("100%");
+			$(".panel-score").prepend('<h3 class="main-titulo">Juego Terminado</h3>')
 			
-
+		borrarCaramelos();
 		});
 		$(".time").hide("slow");
 		borrarCaramelos();
@@ -170,20 +174,21 @@ $(function(){
 			$(".mach").animate({
 				opacity: 1
 
-			}, 300, function (){
-				
+			}, 400, function (){
+				$(".mach").animate({
+				opacity: 0.5
+
+			},200)
 			});
 		});
 
-		setTimeout(romper, 800);
+		setTimeout(romper, 900);
 
 	}
 	//ELIMINA LOS CARAMELOS QUE ESTAN EN MATCH
 	function romper(){
 		puntos +=  $(".mach").length * 10; 
-		if ( $(".mach").length >= 3){
-			tiempo += 3; 
-		}
+		
 		$("#movimientos-text").text(movimientos);
 		$("#score-text").text(puntos);
 		$("#score-text").text(puntos);
@@ -245,7 +250,12 @@ $(function(){
 	//CREA UN CARAMELO EN EL ESPACIO VASIO
 	function reCrearCaramelo(col, y){
 		nimg =Math.floor(Math.random() * 4) + 1 ;
-		$(".col-" + col).prepend("<img src='image/"+nimg+".png' class='elemento' imagen='"+nimg+"' columna='"+col+"'  posision ='"+y+"'> ").show("slow");
+		$(".col-" + col).prepend("<img src='image/"+nimg+".png' class='elemento nuevo' imagen='"+nimg+"' columna='"+col+"'  posision ='"+y+"'> ").show("slow");
+		$(".nuevo").slideDown('fast', function() {
+		$(".nuevo").removeClass('nuevo');
+
+		});
+
 	}
 
 

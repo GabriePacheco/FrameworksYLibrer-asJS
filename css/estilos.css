@@ -113,3 +113,6 @@ div[class^='col']{
   background-color: #4bf253;
 
 }
+.nuevo{
+  display: none;
+}
