@@ -217,10 +217,15 @@ $(function(){
 			 opacity: 0.80,
 			drag : function (){
 				seleccionado = $(this);
+
 				 $(".elemento").each(function(index, el) {
 				 	test = seleccionado.hitTest($(this).offset().left , $(this).offset().top);
 				 	if (test == true ){
-				 		$(this).addClass('mover');
+				 		console.log( Math.floor(seleccionado.attr("columna"))+1 ,  Math.floor($(this).attr("columna")) ) ;	
+				 		if (seleccionado.attr("columna")==$(this).attr("columna") || Math.floor(seleccionado.attr("columna"))-1==Math.floor($(this).attr("columna"))  || Math.floor(seleccionado.attr("columna"))+1==Math.floor($(this).attr("columna"))  ){
+				 			if (seleccionado.attr("posision")==$(this).attr("posision") || Math.floor(seleccionado.attr("posision"))-1==Math.floor($(this).attr("posision"))  || Math.floor(seleccionado.attr("posision"))+1==Math.floor($(this).attr("posision"))  )
+				 			$(this).addClass('mover');
+				 		}
 				 	}else{
 				 		$(this).removeClass('mover');
 				 	}
@@ -234,6 +239,7 @@ $(function(){
 		});	//FUNCION QUE AGREGA LA FUNCIONALIDAD DE CAMBIO DE CARAMELO	
 			$(".elemento").on("mouseup", function(event) {
 					$(this).removeClass("mover");
+
 					 var auxMoverImagen = $(".mover").attr("imagen");
 					 var auxMoverSrc = $(".mover").attr("src");
 					 $(".mover").attr("imagen",$(this).attr("imagen"));
